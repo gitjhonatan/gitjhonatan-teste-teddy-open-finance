@@ -1,0 +1,37 @@
+services:
+  postgres:
+    image: postgres
+    restart: always
+    env_file:
+      - .env
+    environment:
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - '5432:5432'
+    volumes:
+      - docker-nest-postgres:/var/lib/postgresql/data
+    container_name: urlshortner_db
+    networks:
+      - postgres-compose-network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "root@email.com"
+      PGADMIN_DEFAULT_PASSWORD: "root"
+    ports:
+      - "16543:80"
+    depends_on:
+      - postgres
+    container_name: urlshortner_dbadmin
+    networks:
+      - postgres-compose-network
+      
+
+volumes:
+  docker-nest-postgres:
+
+networks: 
+  postgres-compose-network:
+    driver: bridge
+
