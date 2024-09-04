@@ -25,3 +25,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - v0.1.0 User Crud
 - v0.1.0 Migration to create database
+
+## [Unreleased]
+
+### Added
+
+- Authentication
+- URL Crud
