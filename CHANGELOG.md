@@ -11,3 +11,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - v0.0.1 Typeorm configured.
 - v0.0.1 Docker Compose created.
+
+## [Unreleased]
+
+### Added
+
+- v0.0.1 Typeorm configured.
+- v0.0.1 Docker Compose created.
+
+## [Unreleased]
+
+### Added
+
+- v0.1.0 User Crud
+- v0.1.0 Migration to create database
