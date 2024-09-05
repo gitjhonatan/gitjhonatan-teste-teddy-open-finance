@@ -23,10 +23,11 @@ export class AuthGuard implements CanActivate {
       const payload = await this.jwtService.verifyAsync(token, {
         secret: 'asdasda',
       });
-
       request['user'] = payload;
-    } catch {
-      if (!is_post_url) throw new UnauthorizedException();
+    } catch (err) {
+      if (err.message == 'jwt expired' || !is_post_url) {
+        throw new UnauthorizedException();
+      }
     }
     return true;
   }

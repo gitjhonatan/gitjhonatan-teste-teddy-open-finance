@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { CreateUrlDto } from './dto/create-url.dto';
 import { UpdateUrlDto } from './dto/update-url.dto';
@@ -11,9 +11,10 @@ export class UrlService {
     private urlRepository: Repository<Url>,
   ) {}
 
-  async create(createUrlDto: CreateUrlDto) {
+  async create(userId: string, createUrlDto: CreateUrlDto) {
     const charPossible =
       'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+
     let hash = '';
 
     for (let i = 0; i < 6; i++) {
@@ -22,27 +23,66 @@ export class UrlService {
       );
     }
 
-    const url = await this.urlRepository.create({ ...createUrlDto, hash });
+    const url = await this.urlRepository.create({
+      ...createUrlDto,
+      hash,
+      user: userId?.length ? { id: userId } : {},
+    });
     const urlSaved = await this.urlRepository.save(url);
 
     return { ...urlSaved, newUrl: 'http://localhost/' + urlSaved.hash };
   }
 
-  findAll() {
-    return `This action returns all url`;
+  async findAll(userId: string) {
+    // const teste = await this.urlRepository.findBy({ user: { id: userId } });
+    const teste = await this.urlRepository.find({
+      where: { user: { id: userId } },
+      relations: {
+        requests: true,
+      },
+    });
+
+    const otoTeste = teste.map((t) => {
+      return { ...t, requests: t.requests.length };
+    });
+    return otoTeste;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} url`;
+  async update(sub: string, id: string, updateUrlDto: UpdateUrlDto) {
+    const url = await this.urlRepository.findOne({
+      where: {
+        id: id,
+        user: { id: sub },
+      },
+    });
+
+    if (!url) {
+      throw new NotFoundException(
+        'URL not found or you do not have permission to update it',
+      );
+    }
+
+    await this.urlRepository.update(id, updateUrlDto);
+
+    return { message: 'URL updated successfully' };
   }
 
- async update(id: string, updateUrlDto: UpdateUrlDto) {
-    const updated = await this.urlRepository.update(id, updateUrlDto);
-    return updated;
-  }
+  async remove(sub: string, id: string) {
+    const url = await this.urlRepository.findOne({
+      where: {
+        id: id,
+        user: { id: sub },
+      },
+    });
 
-  async remove(id: string) {
-    const deleted = await this.urlRepository.softRemove({ id });
-    return deleted;
+    if (!url) {
+      throw new NotFoundException(
+        'URL not found or you do not have permission to delete it',
+      );
+    }
+
+    await this.urlRepository.softRemove(url);
+
+    return { message: 'URL deleted successfully' };
   }
 }
