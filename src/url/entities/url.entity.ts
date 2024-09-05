@@ -1,6 +1,14 @@
 import { BaseModel } from 'src/entities/base.entity';
 import { User } from 'src/user/entities/user.entity';
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  OneToMany,
+  JoinColumn,
+} from 'typeorm';
+import { UrlRequests } from './url_requests.entity';
 
 @Entity({ name: 'url', schema: 'url_shortner' })
 export class Url extends BaseModel {
@@ -15,4 +23,10 @@ export class Url extends BaseModel {
 
   @ManyToOne(() => User, (user) => user.urls, { onDelete: 'CASCADE' })
   user: User;
+
+  @OneToMany(() => UrlRequests, (urlRequests) => urlRequests.url, {
+    cascade: ['remove'],
+  })
+  @JoinColumn()
+  requests: UrlRequests[];
 }

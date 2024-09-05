@@ -11,24 +11,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - v0.0.1 Typeorm configured.
 - v0.0.1 Docker Compose created.
-
-## [Unreleased]
-
-### Added
-
-- v0.0.1 Typeorm configured.
-- v0.0.1 Docker Compose created.
-
-## [Unreleased]
-
-### Added
-
 - v0.1.0 User Crud
 - v0.1.0 Migration to create database
+- v0.2.0 Authentication
+- v0.2.0 URL Crud
 
-## [Unreleased]
+## [v0.3.0]
 
 ### Added
 
-- Authentication
-- URL Crud
+- Requests urls count
+- Expires time to jtw
+- handle JWT expiration on post url
+- User  validation on endpoints

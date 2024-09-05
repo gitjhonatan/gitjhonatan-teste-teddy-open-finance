@@ -1,10 +1,4 @@
-import {
-  Injectable,
-  NotFoundException,
-  UnauthorizedException,
-} from '@nestjs/common';
-import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserService } from 'src/user/user.service';
 import { JwtService } from '@nestjs/jwt';
 
@@ -23,9 +17,9 @@ export class AuthService {
 
     const payload = { sub: user.id, email: user.email };
     return {
-      access_token: await this.jwtService.signAsync(payload),
+      access_token: await this.jwtService.signAsync(payload, {
+        expiresIn: '24h',
+      }),
     };
-    // TODO: Generate a JWT and return it here
-    // instead of the user object
   }
 }
