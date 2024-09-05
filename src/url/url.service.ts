@@ -3,6 +3,7 @@ import { Repository } from 'typeorm';
 import { CreateUrlDto } from './dto/create-url.dto';
 import { UpdateUrlDto } from './dto/update-url.dto';
 import { Url } from './entities/url.entity';
+import constants from 'src/config/constants';
 
 @Injectable()
 export class UrlService {
@@ -30,7 +31,10 @@ export class UrlService {
     });
     const urlSaved = await this.urlRepository.save(url);
 
-    return { ...urlSaved, newUrl: 'http://localhost/' + urlSaved.hash };
+    return {
+      ...urlSaved,
+      newUrl: `${constants.APP_URL}/${urlSaved.hash}`,
+    };
   }
 
   async findAll(userId: string) {
