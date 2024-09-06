@@ -50,3 +50,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Husky Pre commit
+
+## [v0.3.4]
+
+### Changed
+
+- README.md

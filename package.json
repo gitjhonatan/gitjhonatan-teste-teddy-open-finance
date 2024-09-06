@@ -1,6 +1,6 @@
 {
   "name": "teste-teddy-open-finance",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "description": "",
   "author": "",
   "private": true,
@@ -18,7 +18,8 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "prepare": "husky"
+    "prepare": "husky",
+    "migratin:run": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:run -d src/database/data-source.ts"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
