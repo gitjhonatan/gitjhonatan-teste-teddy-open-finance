@@ -73,6 +73,8 @@ npm start
 
 The application will be available at `http://localhost:3000`.
 
+The API documentation (Swagger) will be available at `http://localhost:3000/api`.
+
 ## Running tests
 
 To run the application tests, use the command:
