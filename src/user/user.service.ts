@@ -1,8 +1,7 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
-import { Equal, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class UserService {
@@ -12,32 +11,21 @@ export class UserService {
   ) {}
 
   async create(createUserDto: CreateUserDto) {
-    const user = this.userRepository.create(createUserDto);
-    await this.userRepository.save(user);
-    return user;
-  }
-
-  findAll() {
-    return `This action returns all user`;
-  }
-
-  findOneByEmail(email: string) {
-    const user = this.userRepository.findOneBy({
-      email: Equal(email),
+    const userExists = await this.userRepository.findOneBy({
+      email: createUserDto.email,
     });
 
+    if (userExists)
+      throw new HttpException('User already exists', HttpStatus.CONFLICT);
+
+    const user = this.userRepository.create(createUserDto);
+    await this.userRepository.save(user);
+
+    delete user.password;
     return user;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
-  }
-
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async findOneByEmail(email: string) {
+    return this.userRepository.findOneBy({ email });
   }
 }

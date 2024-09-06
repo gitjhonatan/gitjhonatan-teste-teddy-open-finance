@@ -23,7 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Requests urls count
 - Expires time to jtw
 - handle JWT expiration on post url
-- User  validation on 
+- User validation endpoints 
 
 ## [v0.3.1]
 
@@ -31,3 +31,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Dotenv
 - constants file
+
+## [v0.3.2]
+
+### Added
+
+- Unit Tests
+- User exists validation on new user creation

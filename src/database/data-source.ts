@@ -1,5 +1,3 @@
-// src/database/data-source.ts
-
 import constants from 'src/config/constants';
 import { DataSource } from 'typeorm';
 

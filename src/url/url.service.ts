@@ -3,7 +3,7 @@ import { Repository } from 'typeorm';
 import { CreateUrlDto } from './dto/create-url.dto';
 import { UpdateUrlDto } from './dto/update-url.dto';
 import { Url } from './entities/url.entity';
-import constants from 'src/config/constants';
+import constants from '../config/constants';
 
 @Injectable()
 export class UrlService {
@@ -13,15 +13,25 @@ export class UrlService {
   ) {}
 
   async create(userId: string, createUrlDto: CreateUrlDto) {
-    const charPossible =
-      'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let hash: string;
 
-    let hash = '';
+    while (true) {
+      hash = '';
 
-    for (let i = 0; i < 6; i++) {
-      hash += charPossible.charAt(
-        Math.floor(Math.random() * charPossible.length),
-      );
+      const charPossible =
+        'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+
+      for (let i = 0; i < 6; i++) {
+        hash += charPossible.charAt(
+          Math.floor(Math.random() * charPossible.length),
+        );
+      }
+
+      const hashExists = await this.urlRepository.findOneBy({ hash });
+
+      if (!hashExists) {
+        break;
+      }
     }
 
     const url = await this.urlRepository.create({
@@ -38,18 +48,16 @@ export class UrlService {
   }
 
   async findAll(userId: string) {
-    // const teste = await this.urlRepository.findBy({ user: { id: userId } });
-    const teste = await this.urlRepository.find({
+    const urls = await this.urlRepository.find({
       where: { user: { id: userId } },
       relations: {
         requests: true,
       },
     });
 
-    const otoTeste = teste.map((t) => {
+    return urls.map((t) => {
       return { ...t, requests: t.requests.length };
     });
-    return otoTeste;
   }
 
   async update(sub: string, id: string, updateUrlDto: UpdateUrlDto) {
@@ -78,7 +86,6 @@ export class UrlService {
         user: { id: sub },
       },
     });
-
     if (!url) {
       throw new NotFoundException(
         'URL not found or you do not have permission to delete it',
