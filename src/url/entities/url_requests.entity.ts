@@ -1,4 +1,4 @@
-import { BaseModel } from 'src/entities/base.entity';
+import { BaseModel } from '../../entities/base.entity';
 import { Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { Url } from './url.entity';
 

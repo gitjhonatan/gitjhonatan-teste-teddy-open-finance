@@ -1,6 +1,6 @@
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
-import { BaseModel } from 'src/entities/base.entity';
-import { Url } from 'src/url/entities/url.entity';
+import { BaseModel } from '../../entities/base.entity';
+import { Url } from '../../url/entities/url.entity';
 import { Entity, PrimaryGeneratedColumn, OneToMany, Column } from 'typeorm';
 
 @Entity({ name: 'user', schema: 'url_shortner' })
