@@ -11,6 +11,7 @@ const randomHash = 'MOHhlZ';
 
 describe('UrlService', () => {
   let urlService: UrlService;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let urlRepository: Repository<Url>;
   const uuid = '2253bc85-936b-483d-a799-68ef4dcbc728';
 

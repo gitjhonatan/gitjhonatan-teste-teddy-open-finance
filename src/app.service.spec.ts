@@ -8,7 +8,9 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 
 describe('AppService', () => {
   let service: AppService;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let urlRepository: Repository<Url>;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let urlRequestsRepository: Repository<UrlRequests>;
 
   const mockUrlRepository = {
