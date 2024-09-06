@@ -18,7 +18,10 @@ export class AuthGuard implements CanActivate {
     const is_post_url =
       request.route.path === '/url' && request.method == 'POST';
 
-    if (!token && !is_post_url) throw new UnauthorizedException();
+    if (!token && !is_post_url)
+      throw new UnauthorizedException(
+        'Unauthorized - Invalid or missing token',
+      );
 
     try {
       const payload = await this.jwtService.verifyAsync(token, {
@@ -27,7 +30,9 @@ export class AuthGuard implements CanActivate {
       request['user'] = payload;
     } catch (err) {
       if (err.message == 'jwt expired' || !is_post_url) {
-        throw new UnauthorizedException();
+        throw new UnauthorizedException(
+          'Unauthorized - Invalid or missing token',
+        );
       }
     }
     return true;
