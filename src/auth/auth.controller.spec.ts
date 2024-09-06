@@ -5,6 +5,7 @@ import { UnauthorizedException } from '@nestjs/common';
 
 describe('AuthController', () => {
   let controller: AuthController;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let authService: AuthService;
 
   const mockAuthService = {
