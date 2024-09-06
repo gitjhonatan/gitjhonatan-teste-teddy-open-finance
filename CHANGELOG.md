@@ -38,3 +38,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Unit Tests
 - User exists validation on new user creation
+
+## [v0.3.3]
+
+### Added
+
+- Swagger API Docs
